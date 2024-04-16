@@ -1,23 +1,33 @@
-import logo from './logo.svg';
-import './App.css';
+import "./App.css";
+import Header from "./components/Header/Header";
+import Home from "./components/Home/Home";
+import ProductsAdd from "./components/Products/ProductsAdd";
+import MyNavbar from "./components/Navbar/Navbar";
+import { useState, useEffect } from "react";
+
+import ProductList from "./components/ProductList/ProductList";
 
 function App() {
+  const [products, setProducts] = useState([]);
+
+  const getProducts = async () => {
+    const res = await fetch(
+      "https://66140aa62fc47b4cf27b7326.mockapi.io/Tecno-products"
+    );
+    const data = await res.json();
+    setProducts(data);
+  };
+  useEffect(() => {
+    getProducts();
+  }, []);
+
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <Header />
+
+      <ProductsAdd />
+      <ProductList products={products} />
+      <Home />
     </div>
   );
 }
